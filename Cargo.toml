@@ -1,7 +1,0 @@
-[package]
-name = "en_x_zh"
-version = "0.1.0"
-edition = "2024"
-
-[dependencies]
-rusqlite = "0.38.0"
