@@ -42,7 +42,13 @@ install: all
 
 	@echo "Installing database..."
 	mkdir -p $(SHAREDIR)
-	cp data/stardict.db $(SHAREDIR)/stardict.db
+
+	@if [ -f "$(SHAREDIR)/stardict.db" ]; then \
+		echo "⚠ Database already exists, skipping copy."; \
+	else \
+		cp data/stardict.db $(SHAREDIR)/stardict.db; \
+		echo "✔ Database installed."; \
+	fi
 
 	@echo "Done."
 
