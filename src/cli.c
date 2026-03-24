@@ -1,26 +1,21 @@
 #include "cli.h"
-#include "query.h"
+
 #include <stdio.h>
 #include <string.h>
 
-#define MAX_INPUT 128
+#include "query.h"
 
-static int is_chinese(const char *str) {
-    while (*str) {
-        if ((unsigned char)*str > 127) return 1;
-        str++;
-    }
-    return 0;
-}
+#define MAX 128
 
 void run_cli(sqlite3 *db) {
-    char input[MAX_INPUT];
+    char input[MAX];
 
-    printf("📚 Stardict CLI (q退出)\n");
+    printf("📚 Stardict CLI (输入 q 退出)\n");
 
     while (1) {
-        printf("\n请输入: ");
-        if (!fgets(input, sizeof(input), stdin)) break;
+        printf("\n输入: ");
+
+        if (!fgets(input, MAX, stdin)) break;
 
         input[strcspn(input, "\n")] = 0;
 
@@ -28,11 +23,6 @@ void run_cli(sqlite3 *db) {
 
         if (strlen(input) == 0) continue;
 
-        if (is_chinese(input)) {
-            query_zh_to_en(db, input);
-        } else {
-            query_en_to_zh(db, input);
-            query_prefix(db, input);
-        }
+        query_en(db, input);
     }
 }
